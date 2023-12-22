@@ -7,7 +7,21 @@ const { Rooms, Users } = require("../models");
 router.get("/", async (req, res) => {
     const rooms = await Rooms.findAll();
 
-    return res.status(200).json({ rooms: rooms })
+    return res.status(200).json(rooms)
+})
+
+// Get room via ID
+
+router.get("/:roomId", async (req, res) => {
+    const roomId = req.params.roomId
+    if (!roomId) {
+        return res.status(400).json("Room ID is not given!")
+    }
+    const room = await Rooms.findOne({
+        where: {id: roomId},
+        include: Users
+    });
+    return res.status(200).json(room)
 })
 
 // Create room
