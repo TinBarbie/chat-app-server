@@ -47,7 +47,9 @@ router.post("/login", async (req, res) => {
 
     const userInstance = await Users.findOne({ where: { name: userName } });
 
-    if (!userInstance) res.status(404).json({ error: "User Doesn't Exist" });
+    if (!userInstance) {
+        return res.status(404).json({ error: "User Doesn't Exist" });
+    }
 
     bcrypt.compare(password, userInstance.password).then(async (match) => {
         if (!match) res.status(403).json({ error: "Wrong Username And Password Combination" });
@@ -56,7 +58,7 @@ router.post("/login", async (req, res) => {
             { username: userInstance.name, id: userInstance.id },
             "importantsecret"
         );
-        res.status(200).json({ token: accessToken, username: userName, id: userInstance.id });
+        return res.status(200).json({ token: accessToken, username: userName, id: userInstance.id });
     });
 });
 

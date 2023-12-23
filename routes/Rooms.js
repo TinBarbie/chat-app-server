@@ -18,10 +18,58 @@ router.get("/:roomId", async (req, res) => {
         return res.status(400).json("Room ID is not given!")
     }
     const room = await Rooms.findOne({
-        where: {id: roomId},
+        where: { id: roomId },
         include: Users
     });
     return res.status(200).json(room)
+})
+
+// add user to the room
+router.post("/userroom", async (req, res) => {
+    const { userId, roomId } = req.body;
+
+    if (!userId || !roomId) {
+        return res.status(400).json("User ID or room ID is not given!")
+    }
+
+    const room = await Rooms.findByPk(roomId);
+    const user = await Users.findByPk(userId);
+
+    if (!room) {
+        return res.status(404).json({ error: "Room Doesn't Exist" });
+    }
+
+    if (!user) {
+        return res.status(404).json({ error: "User Doesn't Exist" });
+    }
+
+    await room.addUser(user);
+
+    return res.status(200).json("User is added to room successfully!")
+})
+
+// Remove user to the room
+
+router.delete("/userroom", async (req, res) => {
+    const { userId, roomId } = req.query;
+    if (!userId || !roomId) {
+        return res.status(400).json("User ID or room ID is not given!")
+    }
+
+    const room = await Rooms.findByPk(roomId);
+    const user = await Users.findByPk(userId);
+
+    if (!room) {
+        return res.status(404).json({ error: "Room Doesn't Exist" });
+    }
+
+    if (!user) {
+        return res.status(404).json({ error: "User Doesn't Exist" });
+    }
+
+    await room.removeUser(user);
+
+    return res.status(200).json("User is removed from room successfully!")
 })
 
 // Create room

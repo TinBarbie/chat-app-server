@@ -38,6 +38,11 @@ io.on("connection", (socket) => {
         console.log(`User with ID: ${socket.id} joined room: ${data.room}`);
     })
 
+    socket.on("leave_room", (data) => {
+        socket.to(data.room).emit("kick_user", data);
+        console.log(`User with ID: ${socket.id} leaved room: ${data.room}`);
+    })
+
     socket.on("send_message", (data) => {
         socket.to(data.room).emit("receive_message", data);
         console.log(data);
@@ -45,6 +50,15 @@ io.on("connection", (socket) => {
 
     socket.on("disconnect", () => {
         console.log("User disconnected", socket.id);
+        socket.broadcast.emit("callEnded")
+    })
+
+    socket.on("call_user", (data) => {
+        io.to(data.userToCall).emit("call_user", { signal: data.signalData, from: data.From, name: data.name })
+    })
+
+    socket.on("answer_call", (data) => {
+        io.to(data.to).emit("accept_call", data.signal)
     })
 })
 db.sequelize.sync().then(() => {
