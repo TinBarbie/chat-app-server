@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         });
         Rooms.belongsToMany(models.Users, {
             onDelete: "cascade",
-            through: 'UserRooms'
+            through: 'Userrooms'
         });
     }
 

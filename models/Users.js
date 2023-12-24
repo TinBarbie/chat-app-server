@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     Users.associate = (models) => {
         Users.belongsToMany(models.Rooms, {
             onDelete: "cascade",
-            through: 'UserRooms'
+            through: 'Userrooms'
         });
         Users.hasMany(models.Chats, {
             onDelete: "cascade"
