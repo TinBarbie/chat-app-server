@@ -7,7 +7,8 @@ const { Userrooms } = require("../models");
 router.post("/", async (req, res) => {
     const { userId, roomId, userSocketId } = req.body;
 
-    console.log(userSocketId)
+    // console.log(userSocketId)
+    // console.log(userId);
     if (!userId || !roomId || !userSocketId) {
         return res.status(400).json("User ID or room ID or userSocketId is not given!")
     }

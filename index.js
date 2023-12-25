@@ -9,6 +9,7 @@ const { Server } = require("socket.io")
 app.use(express.json())
 app.use(cors())
 
+
 const db = require("./models");
 
 const io = new Server(server, {
@@ -29,6 +30,8 @@ app.use("/users", userRouter)
 
 const userRoomRouter = require("./routes/Userrooms")
 app.use("/userrooms", userRoomRouter)
+
+app.use('/assets', express.static('./assets'));
 
 io.on("connection", (socket) => {
     console.log("User connected: ", socket.id);
@@ -58,29 +61,6 @@ io.on("connection", (socket) => {
     socket.on("answer_call", (data) => {
         io.to(data.to).emit("call_accepted", data.signal)
     })
-
-    // socket.on("join_call_room", (roomID) => {
-    //     if (users[roomID]) {
-    //         if (!users[roomID].includes(socket.id)) {
-    //             users[roomID].push(socket.id)
-    //         }
-    //     } else {
-    //         users[roomID] = [socket.id]
-    //     }
-    //     socketToRoom[socket.id] = roomID
-    //     const usersInThisRoom = users[roomID].filter(id => id !== socket.id)
-    //     console.log(users)
-    //     console.log(socketToRoom)
-    //     socket.emit("all_users", usersInThisRoom)
-    // })
-
-    // socket.on("send_signal", (data) => {
-    //     io.to(data.userToSignal).emit("user_joined", { signal: data.signal, callerID: data.callerID, name: data.name })
-    // })
-
-    // socket.on("return_signal", (data) => {
-    //     io.to(data.callerID).emit("receive_return_signal", { signal: data.signal, id: socket.id })
-    // })
 
     socket.on("disconnect", () => {
         console.log("User disconnected", socket.id);
