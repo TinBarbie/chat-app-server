@@ -24,8 +24,6 @@ router.get("/:roomId", async (req, res) => {
     return res.status(200).json(room)
 })
 
-
-
 // Remove user to the room
 
 router.delete("/userroom", async (req, res) => {
