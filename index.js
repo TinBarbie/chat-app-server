@@ -51,10 +51,10 @@ io.on("connection", (socket) => {
 
     socket.on("send_message", (data) => {
         socket.to(data.room).emit("receive_message", data);
-        console.log(data);
     })
 
     socket.on("call_user", (data) => {
+        console.log(data)
         io.to(data.userToCall).emit("call_user", { signal: data.signalData, from: data.from, name: data.name })
     })
 
@@ -62,9 +62,13 @@ io.on("connection", (socket) => {
         io.to(data.to).emit("call_accepted", data.signal)
     })
 
+    socket.on("end_call", (idToCall) => {
+        socket.to(idToCall).emit("end_call")
+    })
+
     socket.on("disconnect", () => {
         console.log("User disconnected", socket.id);
-        socket.broadcast.emit("callEnd")
+        socket.broadcast.emit("callEnded")
     })
 })
 db.sequelize.sync().then(() => {
