@@ -1,5 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const Chats = sequelize.define("Chats", {
+
         description: {
             type: DataTypes.STRING,
         },
@@ -14,9 +15,11 @@ module.exports = (sequelize, DataTypes) => {
     Chats.associate = (models) => {
         Chats.belongsTo(models.Users, {
             onDelete: "cascade",
+            constraints: false
         });
         Chats.belongsTo(models.Rooms, {
             onDelete: "cascade",
+            constraints: false
         });
     }
 

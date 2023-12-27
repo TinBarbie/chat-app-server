@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
             through: 'Userrooms'
         });
         Users.hasMany(models.Chats, {
-            onDelete: "cascade"
+            onDelete: "cascade",
         });
     }
 
