@@ -18,6 +18,7 @@
     "password": "Nhbt@22071998",
     "database": "m2965_chat_app",
     "host": "mysql1.serv00.com",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "dialectModule": "require('mysql2')"
   }
 }
