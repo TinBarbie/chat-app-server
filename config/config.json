@@ -1,24 +1,23 @@
 {
   "development": {
-    "username": "m2965_tinbarbie",
-    "password": "Nhbt@22071998",
-    "database": "m2965_chat_app",
-    "host": "mysql1.serv00.com",
+    "username": "root",
+    "password": "",
+    "database": "chat_app",
+    "host": "localhost",
     "dialect": "mysql"
   },
   "test": {
-    "username": "m2965_tinbarbie",
-    "password": "Nhbt@22071998",
-    "database": "m2965_chat_app",
-    "host": "mysql1.serv00.com",
+    "username": "root",
+    "password": "",
+    "database": "ieltssta_chatapp",
+    "host": "localhost",
     "dialect": "mysql"
   },
   "production": {
-    "username": "m2965_tinbarbie",
-    "password": "Nhbt@22071998",
-    "database": "m2965_chat_app",
-    "host": "mysql1.serv00.com",
-    "dialect": "mysql",
-    "dialectModule": "require('mysql2')"
+    "username": "ieltssta_root",
+    "password": "ieltsstation.edu.vn",
+    "database": "ieltssta_chatapp",
+    "host": "103.200.23.80",
+    "dialect": "mysql"
   }
 }

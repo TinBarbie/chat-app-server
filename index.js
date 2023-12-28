@@ -1,3 +1,4 @@
+
 const express = require("express")
 const http = require("http")
 const app = express()
@@ -28,7 +29,7 @@ app.use("/chats", chatRouter)
 const userRouter = require("./routes/Users")
 app.use("/users", userRouter)
 
-const userRoomRouter = require("./routes/UserRooms")
+const userRoomRouter = require("./routes/Userrooms")
 app.use("/userrooms", userRoomRouter)
 
 app.use('/assets', express.static('./assets'));
@@ -72,8 +73,8 @@ io.on("connection", (socket) => {
     })
 })
 db.sequelize.sync().then(() => {
-    server.listen(3001, () => {
-        console.log("server is running on port 3001");
+    app.listen(8080, () => {
+        console.log("server is running on port 8080");
     })
 })
 
