@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
         return res.status(400).json("User ID or room ID is not given!")
     }
 
-    const userroom = await Userrooms.findOne({ UserId: userId, RoomId: roomId })
+    const userroom = await Userrooms.findOne({ where: { UserId: userId, RoomId: roomId } })
 
     if (!userroom) {
         return res.status(400).json("User is not in the room!")
