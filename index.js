@@ -73,9 +73,9 @@ io.on("connection", (socket) => {
     })
 })
 db.sequelize.sync().then(() => {
-    app.listen(8080, () => {
+    server.listen(8080, () => {
         console.log("server is running on port 8080");
     })
 })
 
-module.exports = app;
+module.exports = server;
