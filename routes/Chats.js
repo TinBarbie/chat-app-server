@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 1000000 },
+    limits: { fileSize: 1050000 },
     fileFilter: (req, file, cb) => {
         const fileTypes = /jpeg|jpg|png|docx|pdf|txt|text|document/
         const mimetype = fileTypes.test(file.mimetype)
@@ -46,12 +46,16 @@ router.post("/", upload, async (req, res) => {
         return res.status(200).json("Chat created successfully!")
     } else {
         console.log(req.file);
-        await Chats.create({
+        const isValid = await Chats.create({
             filename: req.file.path,
             originalName: req.file.originalname,
             RoomId: roomId,
             UserId: userId
         });
+
+        if (!isValid) {
+            return res.status(400).json("Uploaded file is overlimited! Try upload again with no more than 1MB")
+        }
         return res.status(200).json({ filename: req.file.path })
     }
 
