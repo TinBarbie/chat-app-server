@@ -15,7 +15,7 @@ const db = require("./models");
 
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "https://chat-app-gb63.onrender.com/",
         methods: ["GET", "POST"]
     }
 })
