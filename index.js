@@ -78,4 +78,4 @@ db.sequelize.sync().then(() => {
     })
 })
 
-module.exports = server;
+module.exports = app;
