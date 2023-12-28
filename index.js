@@ -15,7 +15,7 @@ const db = require("./models");
 
 const io = new Server(server, {
     cors: {
-        origin: "https://chat-app-gb63.onrender.com/",
+        origin: '*',
         methods: ["GET", "POST"]
     }
 })
@@ -33,6 +33,10 @@ const userRoomRouter = require("./routes/UserRooms")
 app.use("/userrooms", userRoomRouter)
 
 app.use('/assets', express.static('./assets'));
+
+app.use('/', (req, res) => {
+    res.send("Server is created successfully in this website!")
+});
 
 io.on("connection", (socket) => {
     console.log("User connected: ", socket.id);
