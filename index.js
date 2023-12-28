@@ -29,7 +29,7 @@ app.use("/chats", chatRouter)
 const userRouter = require("./routes/Users")
 app.use("/users", userRouter)
 
-const userRoomRouter = require("./routes/Userrooms")
+const userRoomRouter = require("./routes/UserRooms")
 app.use("/userrooms", userRoomRouter)
 
 app.use('/assets', express.static('./assets'));
