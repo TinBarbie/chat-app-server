@@ -16,16 +16,16 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage,
     limits: { fileSize: 1050000 },
-    fileFilter: (req, file, cb) => {
-        const fileTypes = /jpeg|jpg|png|docx|pdf|txt|text|document/
-        const mimetype = fileTypes.test(file.mimetype)
-        const extname = fileTypes.test(path.extname(file.originalname))
-        if (mimetype && extname) {
-            return cb(null, true)
-        }
+    // fileFilter: (req, file, cb) => {
+    //     const fileTypes = /jpeg|jpg|png|docx|pdf|txt|text|document/
+    //     const mimetype = fileTypes.test(file.mimetype)
+    //     const extname = fileTypes.test(path.extname(file.originalname))
+    //     if (mimetype && extname) {
+    //         return cb(null, true)
+    //     }
 
-        cb("Give proper file format to upload")
-    }
+    //     cb("Give proper file format to upload")
+    // }
 }).single("filename")
 
 // Create chat
@@ -34,7 +34,7 @@ router.post("/", upload, async (req, res) => {
     const { description, userId, roomId } = req.body;
 
     if (!roomId || !userId) {
-        return res.status(400).json("Room ID or User ID should be given!")
+        return res.status(400).json({ error: "Room ID or User ID should be given!" })
     }
 
     if (description) {
@@ -45,6 +45,9 @@ router.post("/", upload, async (req, res) => {
         });
         return res.status(200).json("Chat created successfully!")
     } else {
+        if (req.file.size > 1050000) {
+            return res.status(401).json({ error: "Uploaded file is overlimited! Try upload again with no more than 1MB" })
+        }
         console.log(req.file);
         const isValid = await Chats.create({
             filename: req.file.path,
@@ -54,7 +57,7 @@ router.post("/", upload, async (req, res) => {
         });
 
         if (!isValid) {
-            return res.status(400).json("Uploaded file is overlimited! Try upload again with no more than 1MB")
+            return res.status(401).json({ error: "Uploaded file is overlimited! Try upload again with no more than 1MB" })
         }
         return res.status(200).json({ filename: req.file.path })
     }
@@ -66,7 +69,7 @@ router.post("/", upload, async (req, res) => {
 router.get("/:roomId", async (req, res) => {
     const roomId = req.params.roomId
     if (!roomId) {
-        return res.status(400).json("Room ID should be given!")
+        return res.status(400).json({ error: "Room ID should be given!" })
     }
     const chats = await Chats.findAll({
         where: { RoomId: roomId },
